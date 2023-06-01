@@ -98,10 +98,62 @@
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button')); // contains an array of all the errors
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Console Log');
+    });
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Console Error');
+    });
+    errorBtns[2].addEventListener('click', () => {
+      console.count('Console Count');
+    });
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('Console Warn');
+    });
+    errorBtns[4].addEventListener('click', () => {
+      console.assert(false, 'Console Assert');
+    });
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document);
+    });
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(document);
+    });
+    errorBtns[8].addEventListener('click', () => {
+      console.group('Console Group Start');
+    });
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+    errorBtns[10].addEventListener('click', () => {
+      console.table([{
+        name: 'neil',
+        age: 20
+      }, {
+        name: 'uzi',
+        age: 28
+      }]);
+    });
+    errorBtns[11].addEventListener('click', () => {
+      console.time('Start Timer');
+    });
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd('Start Timer');
+    });
+    errorBtns[13].addEventListener('click', () => {
+      console.trace('Console Trace');
+    });
+    errorBtns[14].addEventListener('click', () => {
+      throw new Error('Trigger a Global Error');
+    });
+
   </script>
 </body>
 
