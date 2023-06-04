@@ -7,6 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "e40da8b1d5e44641a4510a23f9eda6bc"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+
   <style>
     button {
       margin: 3px;
@@ -88,6 +97,13 @@
   </main>
 
   <script>
+
+    class CalcError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'CalcError';
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -96,7 +112,27 @@
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+    try{ //check if user inputs a valid number
+      if (isNaN(parseFloat(firstNum)) || isNaN(parseFloat(secondNum))) {
+        throw new CalcError('Invalid input');
+      }
+      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (error) {
+        if (error instanceof CalcError) { // new calc error extends error class
+          output.innerHTML = 'Calculator Error: ' + error.message;
+        }
+        else{
+          output.innerHTML = 'An error occurred: ' + error.message;
+        }     
+        console.error(error);
+      } finally { //after error is caught, this will run
+
+        document.querySelector('#first-num').value = '';
+        document.querySelector('#second-num').value = '';
+      }
     });
+    
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button')); // contains an array of all the errors
 
@@ -121,10 +157,10 @@
       console.clear();
     });
     errorBtns[6].addEventListener('click', () => {
-      console.dir(document);
+      console.dir("button");
     });
     errorBtns[7].addEventListener('click', () => {
-      console.dirxml(document);
+      console.dirxml(calculate);
     });
     errorBtns[8].addEventListener('click', () => {
       console.group('Console Group Start');
@@ -138,7 +174,7 @@
         age: 20
       }, {
         name: 'uzi',
-        age: 28
+        age: 2
       }]);
     });
     errorBtns[11].addEventListener('click', () => {
@@ -151,8 +187,21 @@
       console.trace('Console Trace');
     });
     errorBtns[14].addEventListener('click', () => {
-      throw new Error('Trigger a Global Error');
+      try {
+        throw new Error('Trigger a Global Error');
+      } 
+      catch (error) {
+        console.error(error);
+      }
     });
+    function errorHandler(message, source, error) {
+      console.error('An error occurred:', message);
+    }
+    window.onerror = errorHandler;
+
+    //trackJs
+    TrackJS.track('Testing TrackJS!');
+                        
 
   </script>
 </body>
